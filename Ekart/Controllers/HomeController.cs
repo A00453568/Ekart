@@ -24,6 +24,7 @@ namespace Ekart.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.CartValue = "10";
             return View();
             //if(HttpContext.Session.GetString())
         }

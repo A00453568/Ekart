@@ -3,6 +3,16 @@
 @{
     ViewData["Title"] = "Search";
 }
+<link rel="stylesheet" href="~/css/site.css" />
+
+<div class="header" align="right">
+<a asp-controller="Search" class="icon-shopping-cart" style="font-size: 15px">
+    <img src="~/images/cart.svg" />
+    <asp:Label ID="lblCartCount" runat="server" CssClass="badge badge-warning" ForeColor="White" /><sup>@ViewBag.CartValue</sup>
+</a>
+</div>
+
+
 <form asp-controller="Search" asp-action="Results">
     <p>
         <input type="text" name="searchString" />
@@ -10,15 +20,8 @@
     </p>
 </form>
 
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    
-<div class="header">
-<li>
-     <i class="fa fa-shopping-cart"></i>
-     <a href="Cart1.aspx" class="icon-shopping-cart" style="font-size: 25px">
-     <asp:Label ID="lblCartCount" runat="server" CssClass="badge badge-warning"  ForeColor="White"/>@ViewBag.CartValue</a>
-</li>
-</div>
+
+
 
 <h1>Search Results</h1>
 
@@ -66,7 +69,7 @@
                 <img src="@item.Image_url" alt="Image1" asp-append-version="true" width="125" height="150" />
             </td>
             <td>
-                
+
                 <a asp-controller="Search" asp-action="Add" asp-route-id="@item.PID" class="btn btn-primary mx-1"> Add</a>
 
             </td>

@@ -26,7 +26,7 @@ namespace Ekart.Controllers
 
         public IActionResult ListAll()
         {
-            return View(Product.GetProducts(_db));
+            return View("Search",Product.GetProducts(_db));
         }
 
         public IActionResult Results(string searchString)
