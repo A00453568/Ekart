@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Ekart.Models.Product>
+
+@{
+    ViewData["Title"] = "HomePage";
+}
+
+<h1>HomePage</h1>
+<form asp-controller="Search" asp-action="Results">
+<p>
+    <input type="text" name="searchString"/>
+    <input type="submit" value="Search" />
+</p>
+</form>

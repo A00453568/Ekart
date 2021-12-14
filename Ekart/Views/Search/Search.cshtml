@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Ekart.Models.Product>
+
+@{
+    ViewData["Title"] = "Search";
+}
+<form asp-controller="Search" asp-action="Results">
+    <p>
+        <input type="text" name="searchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+<div class="header">
+<li>
+     <i class="fa fa-shopping-cart"></i>
+     <a href="Cart1.aspx" class="icon-shopping-cart" style="font-size: 25px">
+     <asp:Label ID="lblCartCount" runat="server" CssClass="badge badge-warning"  ForeColor="White"/>@ViewBag.CartValue</a>
+</li>
+</div>
+
+<h1>Search Results</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Product_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Measure)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image_url)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Measure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <img src="@item.Image_url" alt="Image1" asp-append-version="true" width="125" height="150" />
+            </td>
+            <td>
+                
+                <a asp-controller="Search" asp-action="Add" asp-route-id="@item.PID" class="btn btn-primary mx-1"> Add</a>
+
+            </td>
+
+        </tr>
+    }
+
+</table>
