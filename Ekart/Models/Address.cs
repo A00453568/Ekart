@@ -12,9 +12,10 @@ namespace Ekart.Models
     {
         [Key]
         [MaxLength(100)]
+        [Required]
         public string CID { get; set; }
 
-        [Required]
+
         [MaxLength(50)]
         public string FName { get; set; }
 
