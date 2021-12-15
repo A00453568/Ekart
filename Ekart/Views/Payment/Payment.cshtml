@@ -1,0 +1,89 @@
+﻿@model Ekart.Models.AddNPay
+@{
+    Layout = "_Layout";
+}
+<header class="header">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <h1>Ekart</h1>
+                <h2>Payment Page</h2>
+            </div>
+            <div class="col-lg-6">
+                <nav class="header__menu">
+                    <ul>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+            </div>
+        </div>
+        <div class="humberger__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+
+
+
+<form class="form-horizontal" asp-action="Pay">
+
+    <div class="form-group">  <h1>Contact Details</h1>  </div>
+    <div class="form-group">
+        <label class="control-label">First Name</label>
+        <input class="form-control" type="text" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">Last Name</label>
+        <input class="form-control" type="text" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">Address</label>
+        <input class="form-control" type="text" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">City</label>
+        <input class="form-control" type="text" />
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Province</label>
+        <input class="form-control" type="text" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">Postal Code</label>
+        <input class="form-control" type="text" />
+    </div>
+
+    <div class="form-group">
+        <select>
+            <option value="1">Canada (+1)</option>
+            <option value="2">USA (+1)</option>
+        </select>
+        <label class="control-label" placeholder="Only digits">Phone Number</label>
+        <input class="form-control" type="tel" />
+    </div>
+    <div class="form-group">    </div>
+    <div class="form-group">    </div>
+    <div class="form-group">  <h1>Payment Info</h1>  </div>
+
+
+    <div class="form-group">
+        <label class="control-label">Card Number</label>
+        <input class="form-control" type="tel" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">Cvv</label>
+        <input class="form-control" type="tel" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">Expiry</label>
+        <input class="form-control" type="tel" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Pay" />
+    </div>
+</form>

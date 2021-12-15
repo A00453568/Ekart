@@ -28,10 +28,17 @@ namespace Ekart.Controllers
             //if(HttpContext.Session.GetString())
         }
 
-       
+       public void getCartValue()
+        {
+            string id = HttpContext.Session.GetString("id");
+            int cartValue = (int)_db.Basket.Where(cid => cid.email == id).Sum(p => p.Product_Quantity);
+            ViewBag.CartValue = cartValue.ToString();
+            //return cartValue.ToString();
+        }
 
         public IActionResult Delete(int? id)
         {
+            getCartValue();
             var obj = _db.Product.Find(id);
             //return View();
             if (obj == null)
@@ -44,6 +51,7 @@ namespace Ekart.Controllers
 
         public IActionResult HomePage()
         {
+            getCartValue();
             return View();
         }
 

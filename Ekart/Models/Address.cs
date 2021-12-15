@@ -38,5 +38,9 @@ namespace Ekart.Models
         [MaxLength(25)]
         public string Country { get; set; }
 
+        [Required]
+        [MaxLength(7)]
+        public string PostalCode { get; set; }
+
     }
 }

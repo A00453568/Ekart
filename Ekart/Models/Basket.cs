@@ -35,6 +35,10 @@ namespace Ekart.Models
         [MaxLength(50)]
         public string Measure { get; set; }
 
+        [MaxLength(150)]
+        public string Image_url { get; set; }
+
+
         public Basket()
         {
             this.Id = 0;
@@ -53,10 +57,11 @@ namespace Ekart.Models
             this.Price = obj.Price;
             this.Brand = obj.Brand;
             this.Measure = obj.Measure;
+            this.Image_url = obj.Image_url;
 
         }
 
-        public Basket(string id, uint PID, string Product_Name, uint Product_Quantity, float Price, string Brand, string Measure)
+        public Basket(string id, uint PID, string Product_Name, uint Product_Quantity, float Price, string Brand, string Measure, string img_url)
         {
             this.Id = PID;
             this.email = id;
@@ -65,6 +70,7 @@ namespace Ekart.Models
             this.Price = Price;
             this.Brand = Brand;
             this.Measure = Measure;
+            this.Image_url = img_url;
 
         }
 

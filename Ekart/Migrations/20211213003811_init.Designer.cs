@@ -97,7 +97,7 @@ namespace Ekart.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
 
-                    b.Property<long>("PID")
+                    b.Property<long>("ID")
                         .HasColumnType("bigint");
 
                     b.Property<long>("Quantity")
@@ -133,7 +133,7 @@ namespace Ekart.Migrations
 
             modelBuilder.Entity("Ekart.Models.Product", b =>
                 {
-                    b.Property<long>("PID")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
@@ -162,7 +162,7 @@ namespace Ekart.Migrations
                     b.Property<long>("Product_Quantity")
                         .HasColumnType("bigint");
 
-                    b.HasKey("PID");
+                    b.HasKey("ID");
 
                     b.ToTable("Product");
                 });
