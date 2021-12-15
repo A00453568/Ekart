@@ -12,9 +12,10 @@ namespace Ekart.Models
     {
         [Key]
         [MaxLength(100)]
+        [Required]
         public string CID { get; set; }
 
-        [Required]
+
         [MaxLength(50)]
         public string FName { get; set; }
 
@@ -36,6 +37,10 @@ namespace Ekart.Models
         [Required]
         [MaxLength(25)]
         public string Country { get; set; }
+
+        [Required]
+        [MaxLength(7)]
+        public string PostalCode { get; set; }
 
     }
 }

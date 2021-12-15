@@ -1,19 +1,42 @@
 ﻿@model Ekart.Models.Customer
 @{
     ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
 }
-<link rel="stylesheet" href="~/css/site.css" />
 
 
-<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-    <ul class="navbar-nav flex-grow-1">
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Login">Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Signup">Signup</a>
-        </li>
-    </ul>
-</div>
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <h1>Ekart</h1>
+            </div>
+            <div class="col-lg-6">
+                <nav class="header__menu">
+                    <ul>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<center>
+    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <input type="submit" name="signin_submit" onclick="location.href='@Url.Action("Index", "Login")'" value="Sign in" />
+                <input type="submit" name="signin_submit" onclick="location.href='@Url.Action("Index", "Signup")'" value="Sign Up" />
+            </li>
+        </ul>
+    </div>
+</center>
+<marquee scrollamount="15">
+    <img src="~/images/Ekart.jpg" width="552" height="600" />
+    <img src="~/images/ekart2.jpg" width="1155" height="600" />
+    <img src="~/images/ekart3.jpg" width="917" height="607" />
+    <img src="~/images/ekart4.png" width="1075" height="605" />
+</marquee>
+
 
 

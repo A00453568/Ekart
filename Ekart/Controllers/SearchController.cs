@@ -20,18 +20,20 @@ namespace Ekart.Controllers
         // GET: SearchController
         public ActionResult Index()
         {
+            getCartValue();
             return RedirectToAction("ListAll");
         }
 
 
         public IActionResult ListAll()
         {
+            getCartValue();
             return View("Search",Product.GetProducts(_db));
         }
 
         public IActionResult Results(string searchString)
         {
-
+            getCartValue();
             if (!String.IsNullOrEmpty(searchString))
             {
                 HttpContext.Session.SetString("searchString", searchString);
@@ -59,14 +61,35 @@ namespace Ekart.Controllers
             //}
             //return Content(id + " " + name + " " + price);
             //return View();
+            getCartValue();
             string email = HttpContext.Session.GetString("id");
             var obj = _db.Product.Find(id);
-            obj.Product_Quantity = 1;
-            _db.Basket.Add(new Basket(email, obj.PID, obj.Product_Name, obj.Product_Quantity, obj.Price, obj.Brand, obj.Measure));
+            int PID = Convert.ToInt32(obj.PID);
+            var obj2 = _db.Basket.FirstOrDefault(bas => bas.Id == PID);
+
+
+            if (obj2 == null)
+            {
+
+                _db.Basket.Add(new Basket(email, obj.PID, obj.Product_Name, 1, obj.Price, obj.Brand, obj.Measure,obj.Image_url));
+
+            }
+            else
+            {
+                obj2.Product_Quantity += 1;
+
+            }
             _db.SaveChanges();
-            //return Content(email +" " +obj.PID);
-            return RedirectToAction("Results") ;
-            
+            return RedirectToAction("Results");
+
+        }
+
+        public void getCartValue()
+        {
+            string id = HttpContext.Session.GetString("id");
+            int cartValue = (int)_db.Basket.Where(cid => cid.email == id).Sum(p => p.Product_Quantity);
+            ViewBag.CartValue = cartValue.ToString();
+            //return cartValue.ToString();
         }
 
 

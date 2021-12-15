@@ -28,15 +28,13 @@ namespace Ekart.Controllers
         [HttpPost]
         public IActionResult Login(Customer obj)
         {
-
+            
             bool sig = obj.Login_Check(_db);
 
             if (sig)
             {
                 ViewBag.id = obj.Id;
-                //ViewBag.name = obj.FName;
                 HttpContext.Session.SetString("id", obj.Id);
-                //HttpContext.Session.SetString("name", obj.FName);
                 return RedirectToAction("HomePage", "Home");
             }
             else

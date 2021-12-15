@@ -19,6 +19,7 @@ namespace Ekart.Models
         public string Card_Number { get; set; }
 
         [MaxLength(50)]
+        [Required]
         public string Card_Holder_Name { get; set; }
     }
 }

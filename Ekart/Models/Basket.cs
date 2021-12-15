@@ -11,11 +11,13 @@ namespace Ekart.Models
     public class Basket
     {
         [Required]
-        public uint PID { get; set; }
+        [Column("PID")]
+        public uint Id { get; set; }
 
         [MaxLength(100)]
         [Required]
-        public string Id { get; set; }
+        [Column("email")]
+        public string email { get; set; }
 
         [MaxLength(50)]
         [Required]
@@ -33,27 +35,41 @@ namespace Ekart.Models
         [MaxLength(50)]
         public string Measure { get; set; }
 
+        [MaxLength(150)]
+        public string Image_url { get; set; }
+
+        public Basket()
+        {
+            this.Id = 0;
+            this.email = "";
+            this.Product_Name = "";
+            this.Product_Quantity = 0;
+            this.Price = 0;
+        }
+
         public Basket(string id, Product obj)
         {
-            this.Id = id;
-            this.PID = obj.PID;
+            this.Id = obj.PID;
+            this.email = id;
             this.Product_Name = obj.Product_Name;
             this.Product_Quantity = obj.Product_Quantity;
             this.Price = obj.Price;
             this.Brand = obj.Brand;
             this.Measure = obj.Measure;
+            this.Image_url = obj.Image_url;
 
         }
 
-        public Basket(string id, uint PID, string Product_Name, uint Product_Quantity, float Price, string Brand, string Measure)
+        public Basket(string id, uint PID, string Product_Name, uint Product_Quantity, float Price, string Brand, string Measure, string img_url)
         {
-            this.Id = id;
-            this.PID = PID;
+            this.Id = PID;
+            this.email = id;
             this.Product_Name = Product_Name;
             this.Product_Quantity = Product_Quantity;
             this.Price = Price;
             this.Brand = Brand;
             this.Measure = Measure;
+            this.Image_url = img_url;
 
         }
 
