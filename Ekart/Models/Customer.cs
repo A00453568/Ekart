@@ -14,6 +14,8 @@ namespace Ekart.Models
     {
         [Key]
         [MaxLength(100)]
+        [RegularExpression(@"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", ErrorMessage = "Not a valid e-mail address.")]
+        [Required(ErrorMessage = "Email is required")]
         public string Id { get; set; }
 
         [MaxLength(50)]
@@ -24,7 +26,7 @@ namespace Ekart.Models
         public string LName { get; set; }
 
         [MaxLength(50)]
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
 
         [StringLength(10)]
