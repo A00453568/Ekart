@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-lg-3">
                 <h1>Ekart</h1>
-                <h2>Home Page</h2>
+               
             </div>
             <div class="col-lg-6">
                 <nav class="header__menu">
@@ -25,8 +25,8 @@
                     <ul>
                         <li><a href="#"><i class="fa fa-heart"></i> <span>@ViewBag.WishList</span></a></li>
                         <li><a asp-controller="Cart" asp-action="Details" class="icon-shopping-cart" style="font-size: 15px">
-    <i class="fa fa-shopping-bag"></i> <span>@ViewBag.CartValue</span>
-</a></li>
+                        <i class="fa fa-shopping-bag"></i> <span>@ViewBag.CartValue</span></a></li>
+                        <li><a asp-controller="Home" asp-action="Logout" style="color:brown">Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -61,3 +61,10 @@
     </div>
 </section>
 
+<marquee scrollamount="20">
+    <img src="~/images/f1.jpg" width="522" height="590" />
+
+    <img src="~/images/f0.jpg" width="600" height="595" />
+
+    <img src="~/images/f2.jpg" width="520" height="598" />
+</marquee>

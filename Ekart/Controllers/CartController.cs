@@ -4,6 +4,7 @@ using System.Linq;
 using Ekart.Models;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System;
 
 namespace Ekart.Controllers
 {
@@ -21,14 +22,43 @@ namespace Ekart.Controllers
         // GET: CartController
         public ActionResult Index()
         {
-            return RedirectToAction("Details");
+            if (SessionCheck())
+            {
+                var ordersumm = getOrderSummary();
+                double subtot = ordersumm.Sum(i => i.Subtotal);
+                double tax = Math.Round(subtot * 0.15, 2);
+                double tot = subtot + tax;
+                HttpContext.Session.SetString("subtot", subtot.ToString());
+                HttpContext.Session.SetString("tax", tax.ToString());
+                HttpContext.Session.SetString("tot", tot.ToString());
+                return RedirectToAction("Details");
+            }
+            else
+            {
+                return RedirectToAction("Index","Home");
+            }
         }
 
         // GET: CartController/Details/5
         public ActionResult Details()
         {
-            return View("OrderSummary", getOrderSummary());
+            if (SessionCheck())
+            {
+                var ordersumm = getOrderSummary();
+                double subtot = ordersumm.Sum(i => i.Subtotal);
+                double tax = Math.Round(subtot * 0.15, 2);
+                double tot = subtot + tax;
+                HttpContext.Session.SetString("subtot", subtot.ToString());
+                HttpContext.Session.SetString("tax", tax.ToString());
+                HttpContext.Session.SetString("tot", tot.ToString());
+                return View("OrderSummary", ordersumm);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
+            
 
         public void getCartValue()
         {
@@ -37,6 +67,32 @@ namespace Ekart.Controllers
             ViewBag.CartValue = cartValue.ToString();
             //return cartValue.ToString();
         }
+
+        public ActionResult Delete(string id)
+        {
+            if (SessionCheck())
+            {
+                string email = HttpContext.Session.GetString("id");
+                var obj2 = _db.Basket.Where(cid => cid.email == email && cid.Id==Convert.ToUInt32(id)).ToList();
+                //return View();
+                if (obj2 == null)
+                { return NotFound(); }
+                foreach(var ob in obj2) { _db.Basket.Remove(ob); }
+                _db.SaveChanges();
+                getCartValue();
+                var ordersumm = getOrderSummary();
+                double subtot = ordersumm.Sum(i => i.Subtotal);
+                double tax = Math.Round(subtot * 0.15, 2);
+                double tot = subtot + tax;
+                HttpContext.Session.SetString("subtot", subtot.ToString());
+                HttpContext.Session.SetString("tax", tax.ToString());
+                HttpContext.Session.SetString("tot", tot.ToString());
+                return View("OrderSummary", ordersumm);
+            
+            }
+            return RedirectToAction("Index", "Home");
+        }
+       
 
         public List<OrderSummary> getOrderSummary()
         {
@@ -59,6 +115,16 @@ namespace Ekart.Controllers
                 orderSummary.Add(os);
             }
             return orderSummary;
+        }
+
+        public bool SessionCheck()
+        {
+            if (!String.IsNullOrEmpty(HttpContext.Session.GetString("id")))
+            {
+
+                return true;
+            }
+            return false;
         }
 
     }

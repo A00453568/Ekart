@@ -19,6 +19,7 @@ namespace Ekart.Models
         public DbSet<Orders> Orders { get; set; }
         public DbSet<Transactions> Transactions { get; set; }
         public DbSet<Basket> Basket { get; set; }
+        public DbSet<AddNPay> AddNPay { get; set; }
 
     }
 }
