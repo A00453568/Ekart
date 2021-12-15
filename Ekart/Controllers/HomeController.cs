@@ -24,11 +24,19 @@ namespace Ekart.Controllers
 
         public IActionResult Index()
         {
-            return View();
-            //if(HttpContext.Session.GetString())
+
+                if (SessionCheck())
+                {
+                    return RedirectToAction("HomePage", "Home"); 
+                }
+                else
+                {
+                    return View();
+                }
+
         }
 
-       public void getCartValue()
+        public void getCartValue()
         {
             string id = HttpContext.Session.GetString("id");
             int cartValue = (int)_db.Basket.Where(cid => cid.email == id).Sum(p => p.Product_Quantity);
@@ -51,11 +59,18 @@ namespace Ekart.Controllers
 
         public IActionResult HomePage()
         {
-            getCartValue();
-            return View();
+
+
+                if (SessionCheck())
+                {
+                    getCartValue();
+                    return View();
+                }
+                else { return RedirectToAction("Index"); }
+   
         }
 
-        
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -63,5 +78,17 @@ namespace Ekart.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return View("Index");
+        }
+        public bool SessionCheck()
+        {
+            if (!String.IsNullOrEmpty(HttpContext.Session.GetString("id"))) {
+                
+                return true; }
+            return false;
+        }
     }
 }

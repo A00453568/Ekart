@@ -20,48 +20,121 @@ namespace Ekart.Controllers
         // GET: SearchController
         public ActionResult Index()
         {
-            getCartValue();
-            return RedirectToAction("ListAll");
+            if (SessionCheck())
+            {
+                getCartValue();
+                ViewBag.Count = "Showing All".ToString();
+                if (String.IsNullOrEmpty(ViewBag.WishList)) { ViewBag.WishList = "0"; }
+                return RedirectToAction("ListAll");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
         }
 
 
         public IActionResult ListAll()
         {
-            getCartValue();
-            return View("Search",Product.GetProducts(_db));
+            if (SessionCheck())
+            {
+                getCartValue();
+                if (String.IsNullOrEmpty(ViewBag.WishList)) { ViewBag.WishList = "0"; }
+                ViewBag.Count = "Showing All".ToString();
+                return View("Search", Product.GetProducts(_db));
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+
+            }
         }
 
         public IActionResult Results(string searchString)
         {
-            getCartValue();
+            if (SessionCheck())
+            {
+                getCartValue();
+                if (String.IsNullOrEmpty(ViewBag.WishList)) { ViewBag.WishList = "0"; }
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    HttpContext.Session.SetString("searchString", searchString);
+                    var products = _db.Product.Where(s => s.Product_Name!.Contains(searchString));
+                    ViewBag.Count = products.Count();
+                    return View("Search", products.ToList());
+                }
+                ViewBag.Count = "Showing All".ToString();
+                return RedirectToAction("ListAll");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        public IActionResult Ascending(string searchString)
+        {
+            if (SessionCheck())
+            {
+
+                getCartValue();
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    HttpContext.Session.SetString("searchString", searchString);
+                    var products = _db.Product.Where(s => s.Product_Name!.Contains(searchString));
+                    ViewBag.Count = products.Count();
+                    return View("Search", products.ToList().OrderBy(x => x.Price));
+                }
+                else if (!String.IsNullOrEmpty(HttpContext.Session.GetString("searchString")))
+                {
+                    searchString = HttpContext.Session.GetString("searchString");
+                    var products = _db.Product.Where(s => s.Product_Name!.Contains(searchString));
+                    ViewBag.Count = products.Count();
+                    return View("Search", products.ToList().OrderBy(x => x.Price));
+                }
+                ViewBag.Count = "Showing All".ToString();
+                return View("Search", Product.GetProducts(_db).OrderBy(x => x.Price));
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        public IActionResult Descending(string searchString)
+        {
+            if (SessionCheck())
+            {
+                getCartValue();
             if (!String.IsNullOrEmpty(searchString))
             {
                 HttpContext.Session.SetString("searchString", searchString);
                 var products = _db.Product.Where(s => s.Product_Name!.Contains(searchString));
-                return View("Search", products.ToList());
+                ViewBag.Count = products.Count();
+                    ViewBag.SearchTerm = HttpContext.Session.GetString("searchString");
+                    return View("Search", products.ToList().OrderByDescending(x => x.Price));
             }
-            if (!String.IsNullOrEmpty(HttpContext.Session.GetString("searchString")))
+            else if(!String.IsNullOrEmpty(HttpContext.Session.GetString("searchString")))
             {
                 searchString = HttpContext.Session.GetString("searchString");
                 var products = _db.Product.Where(s => s.Product_Name!.Contains(searchString));
-                return View("Search", products.ToList());
+                ViewBag.Count = products.Count();
+                    ViewBag.SearchTerm = HttpContext.Session.GetString("searchString");
+                    return View("Search", products.ToList().OrderByDescending(x => x.Price));
             }
-
-            return NotFound();
+            ViewBag.Count = "Showing All".ToString();
+            return View("Search", Product.GetProducts(_db).OrderByDescending(x => x.Price));
         }
-
+            else
+            {
+                return RedirectToAction("Index", "Home");
+    }
+}
+        [HttpGet]
         public IActionResult Add(uint id)
         {
-            //if (ModelState.IsValid)
-            //{
 
-            //    _db.Basket.Add(new Basket(ViewBag.id, obj.PID, obj.Product_Name, obj.Product_Quantity, obj.Price, obj.Brand, obj.Measure));
-            //    _db.SaveChanges();
-            //    return RedirectToAction("HomePage");
-            //}
-            //return Content(id + " " + name + " " + price);
-            //return View();
-            getCartValue();
             string email = HttpContext.Session.GetString("id");
             var obj = _db.Product.Find(id);
             int PID = Convert.ToInt32(obj.PID);
@@ -80,9 +153,31 @@ namespace Ekart.Controllers
 
             }
             _db.SaveChanges();
+            getCartValue();
             return RedirectToAction("Results");
 
         }
+
+
+        public IActionResult AddHeart()
+        {
+            string Wishlist = HttpContext.Session.GetString("Wishlist");
+            int heart = 0;
+            if (!String.IsNullOrEmpty(Wishlist))
+            {
+                heart = Convert.ToInt32(Wishlist);
+                heart++;
+                ViewBag.WishList = heart.ToString();
+                HttpContext.Session.SetString("Wishlist", heart.ToString());
+            }
+            else {
+                heart = 1;
+                ViewBag.WishList = heart.ToString();
+                HttpContext.Session.SetString("Wishlist", heart.ToString()); }
+            return RedirectToAction("Results");
+
+        }
+
 
         public void getCartValue()
         {
@@ -92,6 +187,15 @@ namespace Ekart.Controllers
             //return cartValue.ToString();
         }
 
-
+        public bool SessionCheck()
+        {
+            if (!String.IsNullOrEmpty(HttpContext.Session.GetString("id")))
+            {
+                ViewBag.WishList = HttpContext.Session.GetString("Wishlist");
+                ViewBag.SearchTerm = HttpContext.Session.GetString("searchString");
+                return true;
+            }
+            return false;
+        }
     }
 }

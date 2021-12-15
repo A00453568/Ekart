@@ -3,7 +3,43 @@
     ViewData["Title"] = "Home Page";
     Layout = "_Layout";
 }
+<style>
+* {
+  box-sizing: border-box;
+}
 
+body {
+  margin: 0;
+  font-family: Arial;
+}
+
+.header {
+  text-align: center;
+  padding: 32px;
+}
+
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+</style>
 
 <header class="header">
     <div class="container">
@@ -31,12 +67,33 @@
         </ul>
     </div>
 </center>
-<marquee scrollamount="15">
-    <img src="~/images/Ekart.jpg" width="552" height="600" />
-    <img src="~/images/ekart2.jpg" width="1155" height="600" />
-    <img src="~/images/ekart3.jpg" width="917" height="607" />
-    <img src="~/images/ekart4.png" width="1075" height="605" />
-</marquee>
+<div class="row">
+    <div class="column">
+        <img src="~/images/Ekart.jpg" style="width:100%" />
+        <img src="~/images/ekart2.jpg" style="width:100%" />
+        <img src="~/images/ekart3.jpg" style="width:100%" />
+        <img src="~/images/ekart4.png" style="width:100%" />
+    </div>
+    <div class="column">
+        <img src="~/images/Ekart.jpg" style="width:100%" />
+        <img src="~/images/ekart2.jpg" style="width:100%" />
+        <img src="~/images/ekart3.jpg" style="width:100%" />
+        <img src="~/images/ekart4.png" style="width:100%" />
+    </div>
+    <div class="column">
+        <img src="~/images/Ekart.jpg" style="width:100%" />
+        <img src="~/images/ekart2.jpg" style="width:100%" />
+        <img src="~/images/ekart3.jpg" style="width:100%" />
+        <img src="~/images/ekart4.png" style="width:100%" />
+    </div>
+    <div class="column">
+        <img src="~/images/Ekart.jpg" style="width:100%" />
+        <img src="~/images/ekart2.jpg" style="width:100%" />
+        <img src="~/images/ekart3.jpg" style="width:100%" />
+        <img src="~/images/ekart4.png" style="width:100%" />
+    </div>
+</div>
+
 
 
 

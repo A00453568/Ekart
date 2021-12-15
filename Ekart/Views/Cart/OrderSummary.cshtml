@@ -19,12 +19,16 @@
             </div>
             <div class="col-lg-3">
                 <div class="header__cart">
+                    <ul>
+                        <li><a asp-controller="Home" asp-action="Logout" style="color:brown">Logout</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
         <div class="humberger__open">
             <i class="fa fa-bars"></i>
         </div>
     </div>
+        </div>
 </header>
 
 
@@ -101,7 +105,10 @@
                                         $@Html.DisplayFor(modelItem => item.Subtotal)
                                     </td>
                                     <td class="shoping__cart__item__close">
-                                        <span class="icon_close"></span>
+                                        <a asp-controller="Cart" asp-action="Delete" class="primary-btn cart-btn" asp-route-id="@item.PID">
+                                            <span class="icon_close"></span>
+                                        
+                                        </a>
                                     </td>
                                 </tr>
                             }
@@ -132,7 +139,7 @@
                     <h5>Cart Total</h5>
                     @{
                         double subtot = @Model.Sum(i => i.Subtotal);
-                        double tax = subtot * 0.15;
+                        double tax = Math.Round(subtot * 0.15,2);  
                         double tot = subtot + tax;
                     }
                     <ul>
@@ -140,10 +147,25 @@
                         <li>Taxes <span>$@tax</span></li>
                         <li>Total <span>$@tot</span></li>
                     </ul>
-                        <a  asp-action="checkout" asp-controller="Payment" class="primary-btn">PROCEED TO CHECKOUT</a>
+                    <form asp-action="Checkout" asp-controller="Payment" method="get" >
+                        <!-- <a asp-action="checkout" asp-controller="Payment" class="primary-btn">PROCEED TO CHECKOUT</a> -->
+                            <button type="submit" class="primary-btn" id="checkoutbtn" >PROCEED TO CHECKOUT</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- Shoping Cart Section End -->
+    </section>
+    <!-- Shoping Cart Section End -->
+   <script>
+    function checkout() {
+        if (@tot== 0) {
+            document.getElementById("checkoutbtn").disabled = true;
+        }
+        else {
+            document.getElementById("checkoutbtn").disabled = false;
+        }
+    }
+    checkout();
+     </script>
+
