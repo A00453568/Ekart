@@ -38,6 +38,7 @@ namespace Ekart.Models
         [MaxLength(150)]
         public string Image_url { get; set; }
 
+
         public Basket()
         {
             this.Id = 0;

@@ -131,10 +131,10 @@ namespace Ekart.Controllers
                 return RedirectToAction("Index", "Home");
     }
 }
-
+        [HttpGet]
         public IActionResult Add(uint id)
         {
-            getCartValue();
+
             string email = HttpContext.Session.GetString("id");
             var obj = _db.Product.Find(id);
             int PID = Convert.ToInt32(obj.PID);
@@ -153,6 +153,27 @@ namespace Ekart.Controllers
 
             }
             _db.SaveChanges();
+            getCartValue();
+            return RedirectToAction("Results");
+
+        }
+
+
+        public IActionResult AddHeart()
+        {
+            string Wishlist = HttpContext.Session.GetString("Wishlist");
+            int heart = 0;
+            if (!String.IsNullOrEmpty(Wishlist))
+            {
+                heart = Convert.ToInt32(Wishlist);
+                heart++;
+                ViewBag.WishList = heart.ToString();
+                HttpContext.Session.SetString("Wishlist", heart.ToString());
+            }
+            else {
+                heart = 1;
+                ViewBag.WishList = heart.ToString();
+                HttpContext.Session.SetString("Wishlist", heart.ToString()); }
             return RedirectToAction("Results");
 
         }
