@@ -22,8 +22,8 @@
                         <li><a href="#"><i class="fa fa-heart"></i> <span>@ViewBag.WishList</span></a></li>
 
                         <li>
-                            <a asp-controller="Cart" asp-action="Details" class="icon-shopping-cart" style="font-size: 15px" >
-                                <i class="fa fa-shopping-bag" ></i> <span >@ViewBag.CartValue</span>
+                            <a asp-controller="Cart" asp-action="Details" class="icon-shopping-cart" style="font-size: 15px" id="cart">
+                                <i class="fa fa-shopping-bag" onmouseover="checkCart()"></i> <span onmouseover="checkCart()">@ViewBag.CartValue</span>
                             </a>
                         </li>
                         <li><a asp-controller="Home" asp-action="Logout" style="color:brown">Logout</a></li>
@@ -99,7 +99,7 @@
 
                                     <ul class="product__item__pic__hover">
                                         <img src="@item.Image_url" alt="Image1" asp-append-version="true" />
-                                        <li><a asp-controller="Search" asp-action="AddHeart" asp-route-id="@item.Product_Quantity"><i class="fa fa-heart"></i></a></li>
+                                        <li><a asp-controller="Search" asp-action="AddHeart" asp-route-id="@item.PID"><i class="fa fa-heart"></i></a></li>
                                         <li><a asp-controller="Search" asp-action="Add" asp-route-id="@item.PID"><i class="fa fa-shopping-cart"></i></a></li>
 
                                     </ul>
@@ -140,4 +140,10 @@ function startSort() {
         }
     });
     }
+    function checkCart() {
+        if (@ViewBag.CartValue == '0' || @ViewBag.CartValue==0) { document.getElementById("cart").disabled = true;}
+
+        else { document.getElementById("cart").disabled = false;}
+    }
+
 </script>

@@ -179,25 +179,6 @@ namespace Ekart.Controllers
         }
 
 
-        public IActionResult AddHeart()
-        {
-            string Wishlist = HttpContext.Session.GetString("Wishlist");
-            int heart = 0;
-            if (!String.IsNullOrEmpty(Wishlist))
-            {
-                heart = Convert.ToInt32(Wishlist);
-                heart++;
-                ViewBag.WishList = heart.ToString();
-                HttpContext.Session.SetString("Wishlist", heart.ToString());
-            }
-            else {
-                heart = 1;
-                ViewBag.WishList = heart.ToString();
-                HttpContext.Session.SetString("Wishlist", heart.ToString()); }
-            return RedirectToAction("Results");
-
-        }
-
         public void getCartValue()
         {
             string id = HttpContext.Session.GetString("id");
