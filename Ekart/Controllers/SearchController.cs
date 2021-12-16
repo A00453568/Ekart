@@ -89,17 +89,18 @@ namespace Ekart.Controllers
         [HttpGet]
         public IActionResult Add(uint id)
         {
-            string email = HttpContext.Session.GetString("id");
+            string emailId = HttpContext.Session.GetString("id");
             var obj = _db.Product.Find(id);
-            int PID = Convert.ToInt32(obj.PID);
-            var obj2 = _db.Basket.FirstOrDefault(bas => bas.Id == PID && bas.email==email);
-            if (obj2 == null)
-            {_db.Basket.Add(new Basket(email, obj.PID, obj.Product_Name, 1, obj.Price, obj.Brand, obj.Measure, obj.Image_url)); }
-            else
-            {obj2.Product_Quantity += 1;}
-            _db.SaveChanges();
-            getCartValue();
-            HttpContext.Session.SetString("UserSearched", "1");
+            uint PID = Convert.ToUInt32(obj.PID);
+            //var obj2 = Basket.getBasket(_db,emailId, PID);
+            ////.FirstOrDefault(bas => bas.Id == PID && bas.email == email)
+            //if (obj2 == null)
+            //{_db.Basket.Add(new Basket(emailId, obj.PID, obj.Product_Name, 1, obj.Price, obj.Brand, obj.Measure, obj.Image_url)); }
+            //else
+            //{obj2.Product_Quantity += 1;}
+            //_db.SaveChanges();
+            //getCartValue();
+            //HttpContext.Session.SetString("UserSearched", "1");
             return RedirectToAction("Results");
         }
 
