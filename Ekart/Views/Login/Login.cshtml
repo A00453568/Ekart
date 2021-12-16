@@ -1,28 +1,67 @@
 ﻿@model Ekart.Models.Customer
 @{
     ViewData["Title"] = "LoginView";
+    Layout = "_Layout";
 }
-
-<h1>Login</h1>
+<link rel="stylesheet" href="~/css/site.css" />
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <h1>Ekart</h1>
+            </div>
+            <div class="col-lg-6">
+                <nav class="header__menu">
+                    <ul>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
 <div class="container">
     <div class="row">
         <div class="col-sm-4"></div>
         <div class="col-sm-4">
-            <form class="form-horizontal" asp-action="Login">
-                <div class="form-group">
-                    <label class="control-label">Email ID</label>
-                    <input asp-for="Id" class="form-control" type="text" />
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Password</label>
-                    <input asp-for="Password" class="form-control" type="password" />
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Submit" />
-                </div>
-            </form>
+            <h3>Sign in</h3>
+            <div class="col-sm-4"></div>
         </div>
-        <div class="col-sm-4"></div>
     </div>
 </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <form class="form-horizontal" asp-action="Login" asp-controller="Login" method="post">
 
+                    <div class="form-group">
+                        <label class="control-label">Email ID</label>
+                        <input asp-for="Id" class="form-control" type="text" id="email" />
+                        <span asp-validation-for="Id" id="emailerror" style="color:red;"></span>
+                        <br />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Password</label>
+                        <input asp-for="Password" class="form-control" type="password" />
+                        <span asp-validation-for="Password" style="color:red;"></span>
+                        <a id="forgot" onclick="forgotPass()">Forgot password?</a>
+                        
+                       
+                    </div>
+                    <div class="form-group">
+                        <span style="color:red;">@ViewBag.WrongLogin</span>
+                    </div>
+                        <div class="form-group">
+                            <input type="submit" value="Submit" />
+                        </div>
+
+</form>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+    </div>
+    <script>
+        function forgotPass() {
+            setTimeout(function () { alert("New Password has been sent to your registered Email"); }, 1200);
+    }
+    </script> 

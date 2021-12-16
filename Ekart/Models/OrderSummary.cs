@@ -22,13 +22,8 @@ namespace Ekart.Models
         public float Price { get; set; }
 
         public float Subtotal { get; set;}
+
+        public string Image_url { get; set; }
     }
 
 }
-
-
-    
-
-    
-
-

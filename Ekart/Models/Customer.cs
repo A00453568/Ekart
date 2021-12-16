@@ -15,22 +15,27 @@ namespace Ekart.Models
         [Key]
         [MaxLength(100)]
         [RegularExpression(@"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", ErrorMessage = "Not a valid e-mail address.")]
-        [Required(ErrorMessage = "Email is required")]
+
+        [Required(ErrorMessage = "Required")]
         public string Id { get; set; }
 
         [MaxLength(50)]
-        [Required]
+        [Required(ErrorMessage = "Required")]
+        [RegularExpression(@"^([\+\-,\.~_=a-z A-Z&\(\)\[\]\{\}\|'""]+)$", ErrorMessage = "Valid First Name is required")]
         public string FName { get; set; }
 
         [MaxLength(50)]
+        [Required(ErrorMessage = "Required")]
+        [RegularExpression(@"^([\+\-,\.~_=a-z A-Z&\(\)\[\]\{\}\|'""]+)$", ErrorMessage = "Valid Last Name is required")]
         public string LName { get; set; }
 
         [MaxLength(50)]
-        [Required(ErrorMessage = "Password is required")]
+        [Required(ErrorMessage = "Required")]
         public string Password { get; set; }
 
         [StringLength(10)]
-        [Required]
+        [Required(ErrorMessage = "Required")]
+        [RegularExpression(@"[1-9][0-9]{9}", ErrorMessage = "Valid phone number is required")]
         public string PhoneNumber { get; set; }
 
         public bool Login_Check(AppDBContext db)
@@ -45,7 +50,7 @@ namespace Ekart.Models
         }
         public void Signup(AppDBContext db)
         {
-            db.Customer.Add(this); //will  add the obj to database
+            db.Customer.Add(this); //will  add the customer object to database
             db.SaveChanges();
         }
 

@@ -1,0 +1,142 @@
+﻿@model Ekart.Models.AddNPay
+@{
+    Layout = "_Layout";
+}
+<header class="header">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <h1>Ekart</h1>
+                <h2>Payment Page</h2>
+            </div>
+            <div class="col-lg-6">
+                <nav class="header__menu">
+                    <ul>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+            </div>
+        </div>
+        <div class="humberger__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+<section class="checkout spad">
+    <div class="container">
+        <div class="row">
+        </div>
+        <div class="checkout__form">
+            <h4>Shipping Details</h4>
+            <form class="form-horizontal" asp-action="Success">
+                <div class="row">
+                    <div class="col-lg-8 col-md-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Card Type<span>*</span></p>
+                                    <select onselect="validateCard()" onclick="validateCard()" id="cardMenu">
+                                        <option value="American Express">American Express</option>
+                                        <option value="Master Card">Master Card</option>
+                                        <option value="Visa">Visa</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Card Number<span>*</span></p>
+                                    <input type="text" id="card" onchange="validateCard()" onclick="validateCard()" onforminput="validateCard()" oninput="validateCard()">
+                                    <span id="carderror" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Card Holder's Name<span>*</span></p>
+                                    <input asp-for="Card_Holder_Name" type="text" id="name">                                    
+                                    <span id="nameerror" asp-validation-for="Card_Holder_Name" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>CVV<span>*</span></p>
+                                    <input asp-for="CVV" type="text" id="cvv">
+                                    <span id="cvverror" asp-validation-for="CVV" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Expiy Date<span>*</span></p>
+                                    <input asp-for="Expiry" type="text" id="expiry" placeholder="MM/YYYY">
+                                    <span id="expiryerror" asp-validation-for="Expiry" style="color:red;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="checkout__order">
+                            <h4>You Pay</h4>
+                            <div class="checkout__order__total">Total <span>$@ViewBag.bill</span></div>
+                            <button type="submit" class="site-btn" id="payment">Pay</button>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<script>
+    function validateCard() {
+
+        var input = document.getElementById('cardMenu').value
+        var cardnum = document.getElementById('card').value
+        if (input == 'American Express')
+        {
+            var re = /^((34[0-9]{13})|(37[0-9]{13}))$/;
+            var out = re.exec(cardnum);
+            var mes = document.getElementById('carderror')
+            if (!out) {
+                mes.textContent = 'Need valid AE card no.';
+                document.getElementById("payment").disabled = true;
+            }
+            
+            else {
+                mes.textContent = '';
+                document.getElementById("payment").disabled = false;
+            }
+
+
+        }
+        else if (input == 'Master Card') {
+            var re = /^(5[1-5][0-9]{14})$/;
+            var out = re.exec(cardnum);
+            var mes = document.getElementById('carderror')
+            if (!out) {
+                mes.textContent = 'Need valid MC card no.';
+                document.getElementById("payment").disabled = true;
+            }
+            else {
+                mes.textContent = '';
+                document.getElementById("payment").disabled = false;
+            }
+        }
+        else{
+            var re = /^(4[0-9]{15})$/;
+            var out = re.exec(cardnum);
+            var mes = document.getElementById('carderror')
+            if (!out) {
+                mes.textContent = 'Need valid Visa card no.';
+                document.getElementById("payment").disabled = true;
+            }
+            else {
+                mes.textContent = '';
+                document.getElementById("payment").disabled = false;
+            }
+
+
+        }
+    }
+</script>

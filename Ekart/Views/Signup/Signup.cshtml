@@ -1,41 +1,84 @@
 ﻿@model Ekart.Models.Customer
 @{
     ViewData["Title"] = "Register";
+    Layout = "_Layout";
 }
 
-<h1>Sign Up</h1>
-<div class="container">
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <h1>Ekart</h1>
+                <h2>Sign Up</h2>
+            </div>
+            <div class="col-lg-6">
+                <nav class="header__menu">
+                    <ul>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container" style="overflow: visible">
     <div class="row">
-        <div class="col-sm-4"></div>
         <div class="col-sm-4">
             <form class="form-horizontal" asp-action="Register">
                 <div class="form-group">
-                    <div class="form-group">
-                        <label class="control-label">First Name</label>
-                        <input asp-for="FName" class="form-control" type="text" />
+                    <div id="login-box">
+
+                        <div class="left">
+                            <div class="form-group">
+                                <label class="control-label">First Name</label>
+                                <input asp-for="FName" class="form-control" type="text" />
+                                <span asp-validation-for="FName" id="emailerror" style="color:red;"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Phone Number</label>
+                                <select>
+                                    <option value="1">Canada (+1)</option>
+                                    <option value="2">USA (+1)</option>
+                                </select>
+
+                                <input asp-for="PhoneNumber" class="form-control" type="text" placeholder="Only digits"/>
+                                <span asp-validation-for="PhoneNumber" id="emailerror" style="color:red;"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Password</label>
+                                <input asp-for="Password" class="form-control" type="password" />
+                                <span asp-validation-for="Password" id="emailerror" style="color:red;"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Submit" />
+                            </div>
+                        </div>
+
+                        <div class="right">
+
+                            <div class="form-group">
+                                <label class="control-label">Last Name</label>
+                                <input asp-for="LName" class="form-control" type="text" />
+                                <span asp-validation-for="LName" id="emailerror" style="color:red;"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Email Id</label>
+                                <input asp-for="Id" class="form-control" type="text" />
+                                <span asp-validation-for="Id" id="emailerror" style="color:red;"></span>
+                            </div>
+                            <div class="form-group">
+                                <span style ="color:red;">@ViewBag.WrongSignup</span>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="form-group">
-                        <label class="control-label">Last Name</label>
-                        <input asp-for="LName" class="form-control" type="text" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Phone Number</label>
-                        <input asp-for="PhoneNumber" class="form-control" type="text" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Email Id</label>
-                        <input asp-for="Id" class="form-control" type="text" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Password</label>
-                        <input asp-for="Password" class="form-control" type="password" />
-                    </div>
+
                 </div>
+
                 <div class="form-group">
-                    <input type="submit" value="Submit" />
+                    
+
                 </div>
             </form>
         </div>
-        <div class="col-sm-4"></div>
     </div>
 </div>

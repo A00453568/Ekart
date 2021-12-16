@@ -21,6 +21,7 @@ namespace Ekart.Controllers
         // GET: Signup
         public ActionResult Index()
         {
+            ViewBag.WrongSignup = "";
             return View("Signup");
         }
 
@@ -31,12 +32,14 @@ namespace Ekart.Controllers
         {
             try
             {
+                ViewBag.WrongSignup = "";
                 obj.Signup(_db);
                 return RedirectToAction("Index", "Login");
             }
             catch
             {
-                return View();
+                ViewBag.WrongSignup = "User Id already exists";
+                return View("Signup");
             }
         }
 
