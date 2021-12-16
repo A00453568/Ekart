@@ -21,10 +21,12 @@ namespace Ekart.Models
 
         [MaxLength(50)]
         [Required(ErrorMessage = "Required")]
+        [RegularExpression(@"^([\+\-,\.~_=a-z A-Z&\(\)\[\]\{\}\|'""]+)$", ErrorMessage = "Valid First Name is required")]
         public string FName { get; set; }
 
         [MaxLength(50)]
         [Required(ErrorMessage = "Required")]
+        [RegularExpression(@"^([\+\-,\.~_=a-z A-Z&\(\)\[\]\{\}\|'""]+)$", ErrorMessage = "Valid Last Name is required")]
         public string LName { get; set; }
 
         [MaxLength(50)]

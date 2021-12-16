@@ -19,11 +19,11 @@
             <div class="col-lg-3">
                 <div class="header__cart">
                     <ul>
-                        <li><a href="#"><i class="fa fa-heart"></i> <span>@ViewBag.WishList</span></a></li>
+                        <li><a href="#"><i class="fa fa-heart"></i> <span> @ViewBag.WishList </span></a></li>
 
                         <li>
                             <a asp-controller="Cart" asp-action="Details" class="icon-shopping-cart" style="font-size: 15px" id="cart">
-                                <i class="fa fa-shopping-bag" onmouseover="checkCart()"></i> <span onmouseover="checkCart()">@ViewBag.CartValue</span>
+                                <i class="fa fa-shopping-bag" ></i> <span> @ViewBag.CartValue </span>
                             </a>
                         </li>
                         <li><a asp-controller="Home" asp-action="Logout" style="color:brown">Logout</a></li>
@@ -79,7 +79,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4">
                             <div class="filter__found">
-                                <h6><span>@ViewBag.Count</span> Products found</h6>
+                                <h6><span> @ViewBag.Count </span> Products found</h6>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-3">
@@ -99,7 +99,7 @@
 
                                     <ul class="product__item__pic__hover">
                                         <img src="@item.Image_url" alt="Image1" asp-append-version="true" />
-                                        <li><a asp-controller="Search" asp-action="AddHeart" asp-route-id="@item.PID"><i class="fa fa-heart"></i></a></li>
+                                        <li><a asp-controller="Search" asp-action="AddHeart"><i class="fa fa-heart"></i></a></li>
                                         <li><a asp-controller="Search" asp-action="Add" asp-route-id="@item.PID"><i class="fa fa-shopping-cart"></i></a></li>
 
                                     </ul>

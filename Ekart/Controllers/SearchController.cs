@@ -25,6 +25,7 @@ namespace Ekart.Controllers
                 getCartValue();
                 ViewBag.Count = "Showing All".ToString();
                 if (String.IsNullOrEmpty(ViewBag.WishList)) { ViewBag.WishList = "0"; }
+                HttpContext.Session.SetString("UserSearched", "0");
                 return RedirectToAction("ListAll");
             }
             else
@@ -42,6 +43,7 @@ namespace Ekart.Controllers
                 getCartValue();
                 if (String.IsNullOrEmpty(ViewBag.WishList)) { ViewBag.WishList = "0"; }
                 ViewBag.Count = "Showing All".ToString();
+                HttpContext.Session.SetString("UserSearched", "0");
                 return View("Search", Product.GetProducts(_db));
             }
             else
@@ -64,6 +66,17 @@ namespace Ekart.Controllers
                     ViewBag.Count = products.Count();
                     return View("Search", products.ToList());
                 }
+                if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserSearched")) && HttpContext.Session.GetString("UserSearched").Equals("1"))
+                {
+                    if (String.IsNullOrEmpty( HttpContext.Session.GetString("searchString"))) {
+                        ViewBag.Count = "Showing All".ToString();
+                        return RedirectToAction("ListAll");
+                    }
+                    var products = _db.Product.Where(s => s.Product_Name!.Contains(HttpContext.Session.GetString("searchString").ToString()));
+                    ViewBag.Count = products.Count();
+                    HttpContext.Session.SetString("UserSearched", "0");
+                    return View("Search", products.ToList());
+                }
                 ViewBag.Count = "Showing All".ToString();
                 return RedirectToAction("ListAll");
             }
@@ -71,6 +84,54 @@ namespace Ekart.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+        }
+
+        [HttpGet]
+        public IActionResult Add(uint id)
+        {
+            string email = HttpContext.Session.GetString("id");
+            var obj = _db.Product.Find(id);
+            int PID = Convert.ToInt32(obj.PID);
+            var obj2 = _db.Basket.FirstOrDefault(bas => bas.Id == PID && bas.email==email);
+            if (obj2 == null)
+            {_db.Basket.Add(new Basket(email, obj.PID, obj.Product_Name, 1, obj.Price, obj.Brand, obj.Measure, obj.Image_url)); }
+            else
+            {obj2.Product_Quantity += 1;}
+            _db.SaveChanges();
+            getCartValue();
+            HttpContext.Session.SetString("UserSearched", "1");
+            return RedirectToAction("Results");
+        }
+
+
+        public IActionResult AddHeart()
+        {
+            string Wishlist = HttpContext.Session.GetString("Wishlist");
+            int heart = 0;
+            if (!String.IsNullOrEmpty(Wishlist))
+            {
+                heart = Convert.ToInt32(Wishlist);
+                heart++;
+                ViewBag.WishList = heart.ToString();
+                HttpContext.Session.SetString("Wishlist", heart.ToString());
+            }
+            else
+            {
+                heart = 1;
+                ViewBag.WishList = heart.ToString();
+                HttpContext.Session.SetString("Wishlist", heart.ToString());
+            }
+            return RedirectToAction("Results");
+
+        }
+
+
+        public void getCartValue()
+        {
+            string id = HttpContext.Session.GetString("id");
+            int cartValue = (int)_db.Basket.Where(cid => cid.email == id).Sum(p => p.Product_Quantity);
+            ViewBag.CartValue = cartValue.ToString();
+            //return cartValue.ToString();
         }
 
         public IActionResult Ascending(string searchString)
@@ -129,63 +190,9 @@ namespace Ekart.Controllers
             else
             {
                 return RedirectToAction("Index", "Home");
-    }
-}
-        [HttpGet]
-        public IActionResult Add(uint id)
-        {
-
-            string email = HttpContext.Session.GetString("id");
-            var obj = _db.Product.Find(id);
-            int PID = Convert.ToInt32(obj.PID);
-            var obj2 = _db.Basket.FirstOrDefault(bas => bas.Id == PID);
-
-
-            if (obj2 == null)
-            {
-
-                _db.Basket.Add(new Basket(email, obj.PID, obj.Product_Name, 1, obj.Price, obj.Brand, obj.Measure,obj.Image_url));
-
-            }
-            else
-            {
-                obj2.Product_Quantity += 1;
-
-            }
-            _db.SaveChanges();
-            getCartValue();
-            return RedirectToAction("Results");
-
-        }
-
-
-        public IActionResult AddHeart()
-        {
-            string Wishlist = HttpContext.Session.GetString("Wishlist");
-            int heart = 0;
-            if (!String.IsNullOrEmpty(Wishlist))
-            {
-                heart = Convert.ToInt32(Wishlist);
-                heart++;
-                ViewBag.WishList = heart.ToString();
-                HttpContext.Session.SetString("Wishlist", heart.ToString());
-            }
-            else {
-                heart = 1;
-                ViewBag.WishList = heart.ToString();
-                HttpContext.Session.SetString("Wishlist", heart.ToString()); }
-            return RedirectToAction("Results");
-
-        }
-
-
-        public void getCartValue()
-        {
-            string id = HttpContext.Session.GetString("id");
-            int cartValue = (int)_db.Basket.Where(cid => cid.email == id).Sum(p => p.Product_Quantity);
-            ViewBag.CartValue = cartValue.ToString();
-            //return cartValue.ToString();
-        }
+             }
+          }
+        
 
         public bool SessionCheck()
         {

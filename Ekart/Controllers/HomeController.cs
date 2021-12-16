@@ -24,15 +24,10 @@ namespace Ekart.Controllers
 
         public IActionResult Index()
         {
-
-                if (SessionCheck())
-                {
-                    return RedirectToAction("HomePage", "Home"); 
-                }
+             if (SessionCheck())
+                {                    return RedirectToAction("HomePage", "Home");                 }
                 else
-                {
-                    return View();
-                }
+                {   return View();                }
 
         }
 
@@ -41,33 +36,27 @@ namespace Ekart.Controllers
             string id = HttpContext.Session.GetString("id");
             int cartValue = (int)_db.Basket.Where(cid => cid.email == id).Sum(p => p.Product_Quantity);
             ViewBag.CartValue = cartValue.ToString();
-            //return cartValue.ToString();
         }
 
         public IActionResult Delete(int? id)
         {
             getCartValue();
             var obj = _db.Product.Find(id);
-            //return View();
             if (obj == null)
             { return NotFound(); }
             _db.Product.Remove(obj);
             _db.SaveChanges();
             return RedirectToAction("HomePage");
-            //return Content(id + " " + name + " " + price);
         }
 
         public IActionResult HomePage()
         {
-
-
                 if (SessionCheck())
                 {
                     getCartValue();
                     return View();
                 }
                 else { return RedirectToAction("Index"); }
-   
         }
 
 
