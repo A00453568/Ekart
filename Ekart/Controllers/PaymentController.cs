@@ -106,23 +106,31 @@ namespace Ekart.Controllers
                 string email = HttpContext.Session.GetString("id");
                 var obj = getOrderSummary();
                 float trans_value = obj.Sum(i => i.Subtotal);
+                trans_value = (float)(trans_value * 1.15);
                 uint tid = getTid();
-                uint oid = tid;
+                uint oid = getOid();
                 Orders ord;
                 foreach (var ob in obj)
                 {
                     ord = new Orders();
+                    ord.OID = oid;
                     ord.PID = ob.PID;
                     ord.CID = email;
                     ord.Quantity = ob.Product_Quantity;
                     ord.Subtotal = ob.Subtotal;
                     _db.Orders.Add(ord);
+                    oid++;
                 }
                 Transactions trans_ob = new Transactions();
                 trans_ob.TID = tid;
                 trans_ob.OID = oid;
                 trans_ob.Transaction_Value = trans_value;
                 _db.Transactions.Add(trans_ob);
+                var basket = _db.Basket.Where(i => i.email== email);
+                foreach(var item in basket)
+                {
+                    _db.Basket.Remove(item);
+                }
                 _db.SaveChanges();
                 ViewBag.checkout = "success";
                 return View("Success");
@@ -169,6 +177,11 @@ namespace Ekart.Controllers
         {
             return Convert.ToUInt32(_db.Transactions.Max(t=>t.TID))+1;
              
+        }
+        public uint getOid()
+        {
+            return Convert.ToUInt32(_db.Orders.Max(t => t.OID)) + 1;
+
         }
     }
 }

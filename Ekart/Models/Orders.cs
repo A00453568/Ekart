@@ -12,9 +12,12 @@ namespace Ekart.Models
     {
 
         [Key]
+        public uint OID { get; set; }
+
+
         public string CID { get; set; }
 
-        //[Key]
+
         public uint PID { get; set; }
 
         [Required]
