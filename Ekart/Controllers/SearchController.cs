@@ -44,7 +44,7 @@ namespace Ekart.Controllers
                 if (String.IsNullOrEmpty(ViewBag.WishList)) { ViewBag.WishList = "0"; }
                 ViewBag.Count = "Showing All".ToString();
                 HttpContext.Session.SetString("UserSearched", "0");
-                return View("Search", Product.GetProducts(_db));
+                return View("Search", Product.GetProducts(_db).OrderBy(x => x.Price));
             }
             else
             {
