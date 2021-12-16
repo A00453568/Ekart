@@ -65,7 +65,7 @@ namespace Ekart.Models
 
         [MaxLength(50)]
         [Required(ErrorMessage = "Required")]
-        [RegularExpression(@"^([\+\-,\.~_=a-z A-Z&\(\)\[\]\{\}\|'""]+)$", ErrorMessage = "Valid Country Name is required")]
+        [RegularExpression(@"^([\+\-,\.~_=a-z A-Z&\(\)\[\]\{\}\|'""]+)$", ErrorMessage = "Valid Card Holder Name is required")]
         public string Card_Holder_Name { get; set; }
 
         [MaxLength(3)]
