@@ -106,6 +106,7 @@ namespace Ekart.Controllers
                 string email = HttpContext.Session.GetString("id");
                 var obj = getOrderSummary();
                 float trans_value = obj.Sum(i => i.Subtotal);
+                trans_value = (float)(trans_value * 1.15);
                 uint tid = getTid();
                 uint oid = getOid();
                 Orders ord;
@@ -125,6 +126,11 @@ namespace Ekart.Controllers
                 trans_ob.OID = oid;
                 trans_ob.Transaction_Value = trans_value;
                 _db.Transactions.Add(trans_ob);
+                var basket = _db.Basket.Where(i => i.email== email);
+                foreach(var item in basket)
+                {
+                    _db.Basket.Remove(item);
+                }
                 _db.SaveChanges();
                 ViewBag.checkout = "success";
                 return View("Success");
