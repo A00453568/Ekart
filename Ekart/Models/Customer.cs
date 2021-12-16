@@ -50,7 +50,7 @@ namespace Ekart.Models
         }
         public void Signup(AppDBContext db)
         {
-            db.Customer.Add(this); //will  add the obj to database
+            db.Customer.Add(this); //will  add the customer object to database
             db.SaveChanges();
         }
 
