@@ -107,16 +107,18 @@ namespace Ekart.Controllers
                 var obj = getOrderSummary();
                 float trans_value = obj.Sum(i => i.Subtotal);
                 uint tid = getTid();
-                uint oid = tid;
+                uint oid = getOid();
                 Orders ord;
                 foreach (var ob in obj)
                 {
                     ord = new Orders();
+                    ord.OID = oid;
                     ord.PID = ob.PID;
                     ord.CID = email;
                     ord.Quantity = ob.Product_Quantity;
                     ord.Subtotal = ob.Subtotal;
                     _db.Orders.Add(ord);
+                    oid++;
                 }
                 Transactions trans_ob = new Transactions();
                 trans_ob.TID = tid;
@@ -169,6 +171,11 @@ namespace Ekart.Controllers
         {
             return Convert.ToUInt32(_db.Transactions.Max(t=>t.TID))+1;
              
+        }
+        public uint getOid()
+        {
+            return Convert.ToUInt32(_db.Orders.Max(t => t.OID)) + 1;
+
         }
     }
 }
