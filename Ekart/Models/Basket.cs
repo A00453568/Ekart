@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ekart.Models
 {
@@ -72,6 +74,14 @@ namespace Ekart.Models
             this.Measure = Measure;
             this.Image_url = img_url;
 
+        }
+
+        public static List<Basket> getBasket(AppDBContext db, string emailId, uint PID)
+        {
+            SqlParameter param1 = new SqlParameter("@p1", emailId);
+            SqlParameter param2 = new SqlParameter("@p2", PID.ToString());
+            var res = db.Basket.FromSqlRaw("select * from Basket where email=@p1 and PID=@p2", param1, param2).ToList();
+            return res;
         }
 
     }
